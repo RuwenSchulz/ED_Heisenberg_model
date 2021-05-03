@@ -5,8 +5,8 @@ from scipy.sparse import diags, kron, csr_matrix
 from scipy.sparse.linalg import eigs, eigsh
 
 #import local functions
-import variables as variables
-from operators import m_s_state_i
+import ed_1D_spinchain.variables as variables
+from ed_1D_spinchain.operators import m_s_state_i
 
 
 def createbasis(inputchain):

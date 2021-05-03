@@ -14,9 +14,9 @@ import math
 import random
 
 
-import variables as variables
-from operators import getstate,random_state
-from basis import createbasis
+import ed_1D_spinchain.variables as variables
+from ed_1D_spinchain.operators import getstate,random_state
+from ed_1D_spinchain.basis import createbasis
 def Psi_f():
     col=np.array([0,0,0,0])
     row=np.array([0,1,2,3])

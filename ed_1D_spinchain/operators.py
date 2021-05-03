@@ -14,8 +14,8 @@ import math
 import random
 from scipy.linalg import expm
 import cmath
-import variables as variables
-import basis as basis
+import ed_1D_spinchain.variables as variables
+import ed_1D_spinchain.basis as basis
 
 def random_state(spinlist_input):
     len_state=int((2*spinlist_input[0]+1)**len(spinlist_input))
