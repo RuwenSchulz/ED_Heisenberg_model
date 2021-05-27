@@ -87,7 +87,8 @@ def createbasis_block(two_m_tot,inputchain):
     variables.lenbasisstates=kk
     
 #works only for S=1
-def createbasis_block_fast(inputchain,block):
+def createbasis_block_fast(inputchain,two_m_tot):
+    block=int(two_m_tot/2)
     L=len(inputchain)
     variables.spinlist=inputchain
     def ternary3(n):
