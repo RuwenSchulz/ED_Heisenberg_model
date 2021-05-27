@@ -103,7 +103,7 @@ def createbasis_block_fast(inputchain,block):
     variables.L=L
 
 
-#filter a basis, such that only basisvectors with specifigc "S_z^tot" value are kept
+#filter a basis, such that only basisvectors with specific "S_z^tot" value are kept
 def filter_basisstates(two_m_tot):
     filtered_basisstatesmap = {}
     mapfiltered_basisstates = {}
