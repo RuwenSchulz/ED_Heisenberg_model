@@ -8,7 +8,7 @@ from scipy.sparse.linalg import eigs, eigsh
 import ed_1D_spinchain.variables as variables
 from ed_1D_spinchain.operators import m_s_state_i
 
-
+#works for arbitrary spins
 def createbasis(inputchain):
     variables.basis_element_index_map={}
     variables.basis_index_element_map={}
@@ -19,6 +19,7 @@ def createbasis(inputchain):
     basisstates=np.arange(int((2*S+1)**variables.L))
     kk=0
     for j in range(int((2*S+1)**variables.L)): 
+        #improve this dirty workaround
         x= np.base_repr(j,basisn,variables.L if j == 0 else variables.L-1-int(logn(basisn,j)+0.000000000000001))
         y=[]
         for i in range(0,len(x)):   
@@ -33,7 +34,7 @@ def createbasis(inputchain):
     print("created basis!")
     
     
-    
+#works only for S=1
 def createbasis_fast(inputchain):
     L=len(inputchain)
     variables.spinlist=inputchain
@@ -50,6 +51,7 @@ def createbasis_fast(inputchain):
     variables.lenbasisstates=(2*S+1)**L
     variables.L=L
     
+#works for arbitrary spins
 def createbasis_block(two_m_tot,inputchain):
     filtered_basisstatesmap = {}
     mapfiltered_basisstates = {}
@@ -65,6 +67,7 @@ def createbasis_block(two_m_tot,inputchain):
     basisstates=np.arange(int((2*S+1)**variables.L))
     kk=0
     for j in range(int((2*S+1)**variables.L)): 
+        #improve this dirty workaround
         x= np.base_repr(j,basisn,variables.L if j == 0 else variables.L-1-int(logn(basisn,j)+0.000000000000001))
         y=[]
         for i in range(0,len(x)):   
@@ -83,6 +86,7 @@ def createbasis_block(two_m_tot,inputchain):
             continue   
     variables.lenbasisstates=kk
     
+#works only for S=1
 def createbasis_block_fast(inputchain,block):
     L=len(inputchain)
     variables.spinlist=inputchain
@@ -99,7 +103,7 @@ def createbasis_block_fast(inputchain,block):
     variables.L=L
 
 
-    
+#filter a basis, such that only basisvectors with specifigc "S_z^tot" value are kept
 def filter_basisstates(two_m_tot):
     filtered_basisstatesmap = {}
     mapfiltered_basisstates = {}
