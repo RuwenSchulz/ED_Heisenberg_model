@@ -1,7 +1,7 @@
 def init():
     global L
-    global basisstatesmap
-    global mapbasisstates
+    global basis_element_index_map
+    global basis_index_element_map
     global spinlist
     global lenbasisstates
     global groundstate
