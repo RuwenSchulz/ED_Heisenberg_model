@@ -17,15 +17,6 @@ import random
 import ed_1D_spinchain.variables as variables
 from ed_1D_spinchain.operators import getstate,random_state
 from ed_1D_spinchain.basis import createbasis
-def Psi_f():
-    col=np.array([0,0,0,0])
-    row=np.array([0,1,2,3])
-    #data=np.array([1,1,1,1])
-    #data=np.array([1,1,1,1])
-    #data=np.array([1/np.sqrt(2),0,0,1/np.sqrt(2)])
-    data=np.array([1/np.sqrt(3),1/np.sqrt(3),1/np.sqrt(3),0,])
-    #data=np.array([1/np.sqrt(4),1/np.sqrt(4),1/np.sqrt(4),1/np.sqrt(4)])
-    return csr_matrix((data,(row,col)),shape=(4, 1))
 
 def projector_right(cutpoint):
     cut=cutpoint
@@ -52,8 +43,6 @@ def projector_right(cutpoint):
     data=[]
     row=[]
     col=[]
-    #print(basis_right)
-    #print(basis_left)
     for i in range(0,len(basis_left)):
         for j in range(len_basis_uncut):
             if((basis_left[i]+basis_cut_right[j])==basis_uncut[j]):
@@ -102,8 +91,6 @@ def projector_left(cutpoint):
     data=[]
     row=[]
     col=[]
-    #print(basis_right)
-    #print(basis_left)
     for i in range(0,len(basis_right)):
         for j in range(len_basis_uncut):
             if((basis_cut_left[j]+basis_right[i])==basis_uncut[j]):
@@ -288,31 +275,6 @@ def entanglement_spectrum(cut,state=0,k=30):
     return density_matrix_diagonalized_real,[i for i in range(0,len(density_matrix_diagonalized_real))]
 
 
-def entanglement_spectrum_full_diagonal(cut,state=0):
-    cutpoint=cut+1
-    densitymatrix=0
-    projectors=[]
-    Psi=0
-    lamb=[]
-    spinlist_total=variables.spinlist
-    lenbasisstates_total=variables.lenbasisstates
-    reducedbasis_index_element_map=variables.basis_index_element_map
-    reducedbasis_element_index_map=variables.basis_element_index_map
-    if(state=='r'):
-        Psi=random_state(variables.spinlist)
-    else:
-        Psi=getstate(state)
-    projectors=projector_right(cutpoint)
-    for i in range(0,len(projectors[1])):
-        projection_spin_up=scipy.sparse.csr_matrix.dot(projectors[1][i],Psi)
-        densitiymatrix_element=scipy.sparse.csr_matrix.dot(projection_spin_up,projection_spin_up.transpose())
-        densitymatrix+=densitiymatrix_element
-    
-    return np.diag(densitymatrix.toarray())
-
-
-
-
 def entanglement_entropy(cut,state=0):
     cutpoint=cut+1
     densitymatrix=0
@@ -336,24 +298,13 @@ def entanglement_entropy(cut,state=0):
     for j in range(lenbasisstates_total):
         row.append(unreducedbasis_element_index_map[str(reducedbasis_index_element_map[j])])
     Psi_in_unreduced_basis=csr_matrix((psiarraydata,(row,np.zeros(lenbasisstates_total))),shape=(lenunreducedbasis_index_element_map, 1))
-    
-    
     projectors=projector_right(cutpoint)
     for i in range(0,len(projectors[1])):
         projection_spin_up=scipy.sparse.csr_matrix.dot(projectors[1][i],Psi_in_unreduced_basis)
         densitiymatrix_element=scipy.sparse.csr_matrix.dot(projection_spin_up,projection_spin_up.transpose())
         densitymatrix+=densitiymatrix_element
-
-    #density_matrix_diagonalized =scipy.sparse.linalg.eigsh(densitymatrix.toarray(),k=21,which='LA')
-    #print("trace:",sum(density_matrix_diagonalized[0]))
-    #density_matrix_diagonalized_real=[]
-    #for i in range(0,len(density_matrix_diagonalized[0])):
-    #    density_matrix_diagonalized_real.append(density_matrix_diagonalized[0][i].real)
-    #density_matrix_diagonalized_real= sorted(density_matrix_diagonalized_real)
-    #density_matrix_diagonalized_real.reverse()
     S=0
     entropyhalfwaydone=scipy.sparse.csr_matrix.dot(densitymatrix,scipy.linalg.logm(densitymatrix.toarray()))
     for i in range(0,len(projectors[0])):
        S+=scipy.sparse.csr_matrix.dot(projectors[0][i].transpose(),scipy.sparse.csr_matrix.dot(entropyhalfwaydone,projectors[0][i]))
-    #print("S=",-S[0][0])
     return -S[0][0]
